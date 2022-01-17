@@ -1,6 +1,6 @@
-## Compound-Components
+## Velend-Components
 
-Compound Components repo is a collection of styles, javascript, and elm components that are used across all of Compound's frontend properties.
+Velend Components repo is a collection of styles, javascript, and elm components that are used across all of Velend's frontend properties.
 
 ## Sample App
 
@@ -9,7 +9,7 @@ This repository is mostly used as a pure component library, but there is a very 
 To get started, first clone this repo:
 
 ```bash
-> git clone https://github.com/TitansFinance/compound-components.git && cd compound-components
+> git clone https://github.com/TitansFinance/compound-components.git && cd velend-components
 ```
 
 Next, install yarn dependencies (note, you should not use `npm` instead of `yarn` during `install` because `npm` does not respect `yarn.lock`.):
