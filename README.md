@@ -9,7 +9,7 @@ This repository is mostly used as a pure component library, but there is a very 
 To get started, first clone this repo:
 
 ```bash
-> git clone https://github.com/compound-finance/compound-components.git && cd compound-components
+> git clone https://github.com/TitansFinance/compound-components.git && cd compound-components
 ```
 
 Next, install yarn dependencies (note, you should not use `npm` instead of `yarn` during `install` because `npm` does not respect `yarn.lock`.):

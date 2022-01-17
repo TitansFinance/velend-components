@@ -15,6 +15,7 @@ type Network
     | Sokol
     | Core
     | Development
+    | Velas
     | Unknown
 
 
@@ -51,6 +52,9 @@ networkFromId networkIdVal =
         99 ->
             Core
 
+        111 ->
+            Velas
+
         999 ->
             Development
 
@@ -81,6 +85,9 @@ networkFromName name =
 
         "development" ->
             Development
+
+        "velas" ->
+            Velas
 
         _ ->
             MainNet
@@ -122,6 +129,9 @@ networkName network =
         Development ->
             "Development"
 
+        Velas ->
+            "Velas"
+
         Unknown ->
             "unknown"
 
@@ -158,6 +168,9 @@ networkId network =
 
         Core ->
             99
+        
+        Velas ->
+            111
 
         Development ->
             999
@@ -201,6 +214,9 @@ getEtherscanDomain network =
 
         Development ->
             Nothing
+
+        Velas ->
+            Just "evmexplorer.testnet.velas.com"
 
         Unknown ->
             Nothing
