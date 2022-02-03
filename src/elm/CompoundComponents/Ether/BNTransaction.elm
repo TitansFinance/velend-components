@@ -11,10 +11,13 @@ import CompoundComponents.Ether.Hex as Hex exposing (Hex)
 import CompoundComponents.Ether.Web3
 import CompoundComponents.Functions exposing (handleError)
 import CompoundComponents.Utils.Time as UtilsTime
+import Debug exposing (log)
+import Json.Decode.Extra exposing (andMap)
 import Json.Decode
 import Set exposing (Set)
 import Task
 import Time
+
 
 
 getTxModule : Network -> CustomerAddress -> String
@@ -49,6 +52,7 @@ type alias Transaction =
     , txId : Int
     , txHash : Maybe Hex
     , txStatus : TxStatus
+    , txMessage: Maybe String
     , fromAddress : Address
     , toAddress : Address
     , function : String
@@ -74,7 +78,7 @@ type alias BNTransactionState =
 type BNTransactionMsg
     = SetTransactionHash ( String, Int, Hex )
     | TransactionStateChange ( String, Int, TxStatusUpdate )
-    | TransactionRejected ( String, Int )
+    | TransactionRejected ( String, Int, String )
     | Tick Time.Posix
     | SetTransactionsFromStorage (List Transaction)
     | ClearTransactions
@@ -93,6 +97,7 @@ newTransaction network fromAddress toAddress function args bnTransactionState =
     , txId = bnTransactionState.currentTransactionId
     , txHash = Nothing
     , txStatus = AwaitingSig
+    , txMessage = Nothing
     , fromAddress = fromAddress
     , toAddress = toAddress
     , function = function
@@ -189,10 +194,10 @@ update maybeNetwork account msg ({ transactions } as state) =
             , storeBNTransactionUpdate txModule txId txStatusUpdate
             )
 
-        TransactionRejected ( txModule, txId ) ->
+        TransactionRejected ( txModule, txId, txMessage ) ->
             ( let
                 updatedTransactions =
-                    updateRejectedTransactionByTxId txModule txId transactions
+                    updateRejectedTransactionByTxId txModule txId txMessage transactions
               in
               { state | transactions = updatedTransactions }
             , Cmd.none
@@ -314,12 +319,12 @@ updateTransactionStatusByTxId txModuleId txId txStatusUpdate transactions =
             )
 
 
-updateRejectedTransactionByTxId : String -> Int -> List Transaction -> List Transaction
-updateRejectedTransactionByTxId txModuleId txId transactions =
+updateRejectedTransactionByTxId : String -> Int -> String -> List Transaction -> List Transaction
+updateRejectedTransactionByTxId txModuleId txId txMessage transactions =
     let
         setTxRejected : Transaction -> Transaction
         setTxRejected trx =
-            { trx | txStatus = Rejected }
+            { trx | txStatus = Rejected, txMessage = Just txMessage }
     in
     transactions
         |> List.map
@@ -447,6 +452,18 @@ getPendingBNTransactionsForAccount maybeNetwork account { transactions } =
                     && (trx.txStatus == Sent || trx.txStatus == Pending)
             )
 
+getFailedBNTransactionsForAccount : Maybe Network -> Account -> BNTransactionState -> List Transaction
+getFailedBNTransactionsForAccount maybeNetwork account { transactions } =
+    let
+        userTxModule =
+            getUserTxModule maybeNetwork account
+    in
+    transactions
+        |> List.filter
+            (\trx ->
+                (trx.txModuleId == userTxModule) && (trx.txStatus == Rejected)
+            )
+
 
 getUserTxModule : Maybe Network -> Account -> String
 getUserTxModule maybeNetwork account =
@@ -533,16 +550,16 @@ giveStoredBNTransactions wrapper =
             Json.Decode.list
                 (let
                     stage1 =
-                        Json.Decode.map8 Transaction
-                            (Json.Decode.field "txModuleId" Json.Decode.string)
-                            (Json.Decode.field "timestamp" (Json.Decode.nullable (Json.Decode.int |> Json.Decode.map Time.millisToPosix)))
-                            (Json.Decode.field "network" decodeNetwork)
-                            (Json.Decode.field "txId" Json.Decode.int)
-                            (Json.Decode.field "txHash" (Json.Decode.nullable hexDecoder))
-                            (Json.Decode.field "txStatus" statusDecoder)
-                            (Json.Decode.field "fromAddress" hexDecoder |> Json.Decode.map Address)
-                            (Json.Decode.field "toAddress" hexDecoder |> Json.Decode.map Address)
-
+                        Json.Decode.succeed Transaction
+                            |> Json.Decode.Extra.andMap (Json.Decode.field "txModuleId" Json.Decode.string)
+                            |> Json.Decode.Extra.andMap (Json.Decode.field "timestamp" (Json.Decode.nullable (Json.Decode.int |> Json.Decode.map Time.millisToPosix)))
+                            |> Json.Decode.Extra.andMap (Json.Decode.field "network" decodeNetwork)
+                            |> Json.Decode.Extra.andMap (Json.Decode.field "txId" Json.Decode.int)
+                            |> Json.Decode.Extra.andMap (Json.Decode.field "txHash" (Json.Decode.nullable hexDecoder))
+                            |> Json.Decode.Extra.andMap (Json.Decode.field "txStatus" statusDecoder)
+                            |> Json.Decode.Extra.andMap (Json.Decode.field "txMessage" (Json.Decode.maybe Json.Decode.string))
+                            |> Json.Decode.Extra.andMap (Json.Decode.field "fromAddress" hexDecoder |> Json.Decode.map Address)
+                            |> Json.Decode.Extra.andMap (Json.Decode.field "toAddress" hexDecoder |> Json.Decode.map Address)
                     transactionDecoder =
                         Json.Decode.map3
                             (<|)
@@ -604,13 +621,14 @@ transactionStateChange wrapper =
 port etherTransactionRejectedPort : (Json.Decode.Value -> msg) -> Sub msg
 
 
-transactionRejected : (Result String ( String, Int ) -> msg) -> Sub msg
+transactionRejected : (Result String ( String, Int, String ) -> msg) -> Sub msg
 transactionRejected wrapper =
     etherTransactionRejectedPort
         (Json.Decode.decodeValue
-            (Json.Decode.map2 (\txModule txId -> ( txModule, txId ))
+            (Json.Decode.map3 (\txModule txId txMessage-> ( txModule, txId, txMessage ))
                 (Json.Decode.at [ "txModule" ] Json.Decode.string)
                 (Json.Decode.at [ "txId" ] Json.Decode.int)
+                (Json.Decode.at [ "txMessage" ] Json.Decode.string)
             )
             >> wrapError
             >> wrapper
@@ -620,3 +638,4 @@ transactionRejected wrapper =
 wrapError : Result Json.Decode.Error a -> Result String a
 wrapError =
     Result.mapError Json.Decode.errorToString
+
