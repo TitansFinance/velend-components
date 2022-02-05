@@ -95,6 +95,9 @@ function networkFromId(id) {
 
     case 999:
       return 'development';
+    
+    case 80001:
+        return 'polygon';
 
     default:
       'development';

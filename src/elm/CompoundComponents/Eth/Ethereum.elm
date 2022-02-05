@@ -110,6 +110,9 @@ etherscanUrl network urlValue =
 
         Velas ->
             Just ("https://evmexplorer.testnet.velas.com" ++ linkType ++ "/" ++ linkValue)
+
+        Polygon ->
+            Just ("https://polygonscan.com/" ++ linkType ++ "/" ++ linkValue)
             
         _ ->
             Nothing

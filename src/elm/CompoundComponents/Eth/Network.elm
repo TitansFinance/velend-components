@@ -16,6 +16,7 @@ type Network
     | Core
     | Development
     | Velas
+    | Polygon
     | Unknown
 
 
@@ -61,6 +62,9 @@ networkFromId networkIdVal =
         1337 ->
             Development
 
+        80001 -> 
+            Polygon
+
         _ ->
             Unknown
 
@@ -88,6 +92,9 @@ networkFromName name =
 
         "velas" ->
             Velas
+        
+        "polygon" ->
+            Polygon
 
         _ ->
             MainNet
@@ -131,6 +138,9 @@ networkName network =
 
         Velas ->
             "Velas"
+        
+        Polygon ->
+            "Polygon"
 
         Unknown ->
             "unknown"
@@ -174,6 +184,9 @@ networkId network =
 
         Development ->
             999
+        
+        Polygon ->
+            80001
 
         Unknown ->
             9999
@@ -217,6 +230,9 @@ getEtherscanDomain network =
 
         Velas ->
             Just "evmexplorer.testnet.velas.com"
+
+        Polygon ->
+            Just "https://polygonscan.com/"
 
         Unknown ->
             Nothing
