@@ -232,7 +232,7 @@ getEtherscanDomain network =
             Just "evmexplorer.testnet.velas.com"
 
         Polygon ->
-            Just "https://polygonscan.com/"
+            Just "mumbai.polygonscan.com/"
 
         Unknown ->
             Nothing
