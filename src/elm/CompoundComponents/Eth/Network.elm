@@ -229,7 +229,7 @@ getEtherscanDomain network =
             Nothing
 
         Velas ->
-            Just "evmexplorer.testnet.velas.com"
+            Just "evmexplorer.testnet.velas.com/"
 
         Polygon ->
             Just "mumbai.polygonscan.com/"
