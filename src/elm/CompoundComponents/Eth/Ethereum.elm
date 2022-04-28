@@ -109,7 +109,7 @@ etherscanUrl network urlValue =
             Just ("https://goerli.etherscan.io/" ++ linkType ++ "/" ++ linkValue)
 
         Velas ->
-            Just ("https://evmexplorer.testnet.velas.com" ++ linkType ++ "/" ++ linkValue)
+            Just ("https://evmexplorer.testnet.velas.com/" ++ linkType ++ "/" ++ linkValue)
             
         _ ->
             Nothing
