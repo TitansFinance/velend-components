@@ -29,6 +29,9 @@
     @extend .animated-background;
   }
 
+  &--AMALGAM {
+    background-image: url('/compound-components/assets/asset_AMALGAM.svg');
+  }
   &--AAVE {
     background-image: url('/compound-components/assets/asset_AAVE.svg');
   }
