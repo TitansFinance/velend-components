@@ -28,8 +28,8 @@ async function connectWalletLink(eth, disallowAuthDialog = false) {
   const CHAIN_ID = 1;
 
   const walletLink = new WalletLink({
-    appName: 'Compound',
-    appLogoUrl: 'https://app.compound.finance/images/compound-192.png',
+    appName: 'Amalgam',
+    appLogoUrl: '/compound-components/assets/asset_AMALGAM.svg',
   });
 
   const trxProvider = walletLink.makeWeb3Provider(JSONRPC_URL, CHAIN_ID);
