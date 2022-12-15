@@ -232,9 +232,40 @@ label {
   }
   &.supply {
     color: $color_dark_5;
+    font-family: Mazzard;
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 31px;
+    letter-spacing: 0em;
+    text-align: left;
+
   }
   &.borrow {
     color: $color_dark_5;
+    font-family: Mazzard;
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 31px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  &.assetc {
+    font-family: Mazzard;
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
+
+  }
+   &.net-apy {
+     font-family: Mazzard;
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 31px;
+    letter-spacing: 0em;
+    text-align: left;
+
   }
   &.treasury {
     color: $color_blue_1;
