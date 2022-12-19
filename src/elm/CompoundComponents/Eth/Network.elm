@@ -16,6 +16,7 @@ type Network
     | Core
     | Development
     | Velas
+    | VelasMainNet
     | Unknown
 
 
@@ -55,6 +56,9 @@ networkFromId networkIdVal =
         111 ->
             Velas
 
+        106 ->
+            VelasMainNet
+
         999 ->
             Development
 
@@ -88,6 +92,9 @@ networkFromName name =
 
         "velas" ->
             Velas
+
+        "velasmain" ->
+            VelasMainNet
 
         _ ->
             MainNet
@@ -132,6 +139,9 @@ networkName network =
         Velas ->
             "Velas"
 
+        VelasMainNet ->
+            "VelasMain"
+
         Unknown ->
             "unknown"
 
@@ -168,9 +178,12 @@ networkId network =
 
         Core ->
             99
-        
+
         Velas ->
             111
+
+        VelasMainNet ->
+            106
 
         Development ->
             999
@@ -217,6 +230,9 @@ getEtherscanDomain network =
 
         Velas ->
             Just "evmexplorer.testnet.velas.com/"
+
+        VelasMainNet ->
+            Just "evmexplorer.velas.com/"
 
         Unknown ->
             Nothing
