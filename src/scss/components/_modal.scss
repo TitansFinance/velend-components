@@ -90,8 +90,9 @@
       }
       .close-x {
         position: absolute;
-        bottom: $column-gutter/1.75;
+        bottom: $column-gutter;
         right: $column-gutter/2;
+        top: $column-gutter/1.25;
 
         @media (min-width: $device-md) {
           bottom: $column-gutter;
@@ -104,7 +105,7 @@
           border: 0;
           padding: 0.5rem 1rem;
           width: 20px;
-          height: 20px;
+          height: 2rem;
         }
       }
     }

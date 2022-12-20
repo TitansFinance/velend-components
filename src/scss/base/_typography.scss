@@ -233,7 +233,8 @@ label {
   &.supply {
     color: $color_dark_5;
     font-family: Mazzard;
-    font-size: 26px;
+    font-style: normal;
+    font-size: 22px;
     font-weight: 500;
     line-height: 31px;
     letter-spacing: 0em;
@@ -242,8 +243,8 @@ label {
   }
   &.borrow {
     color: $color_dark_5;
-    font-family: Mazzard;
-    font-size: 26px;
+    font-style: normal;
+    font-size: 22px;
     font-weight: 500;
     line-height: 31px;
     letter-spacing: 0em;
@@ -251,7 +252,8 @@ label {
   }
   &.assetc {
     font-family: Mazzard;
-    font-size: 30px;
+    font-style: normal;
+    font-size: 50px;
     font-weight: 500;
     line-height: 30px;
     letter-spacing: 0em;
@@ -260,7 +262,8 @@ label {
   }
    &.net-apy {
      font-family: Mazzard;
-    font-size: 26px;
+      font-style: normal;
+    font-size: 22px;
     font-weight: 500;
     line-height: 31px;
     letter-spacing: 0em;

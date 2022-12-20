@@ -68,7 +68,7 @@ input[type='button'] {
     }
   }
   &.borrow {
-    @include btn($color_borrow);
+    @include btn($color_supply);
     &.pending {
       @include shimmer($color_borrow);
     }
