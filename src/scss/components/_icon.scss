@@ -135,21 +135,23 @@
   }
 }
 
-.navicon {
+ .navicon {
   display: inline-flex;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  width: 1rem;
-  height: 1rem;
   margin-right: 10px;
-  margin-bottom: -1px;
+  margin-bottom: -4px;
+
   &--EARN {
-   
+    width: 2rem;
+    height: 1.3rem;
     background-image: url('/compound-components/assets/Portfolio.svg');
   }
 
   &--BORROW {
+    width: 2rem;
+    height: 1.3rem;
     background-image: url('/compound-components/assets/Borrow_icon.svg');
   }
 }
