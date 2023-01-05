@@ -149,9 +149,22 @@
     background-image: url('/compound-components/assets/Portfolio.svg');
   }
 
+   &--EARNACTIVE {
+    width: 2rem;
+    height: 1.3rem;
+    background-image: url('/compound-components/assets/Portfolio_Active.svg');
+  }
+
   &--BORROW {
     width: 2rem;
     height: 1.3rem;
     background-image: url('/compound-components/assets/Borrow_icon.svg');
   }
+
+   &--BORROWACTIVE {
+    width: 2rem;
+    height: 1.3rem;
+    background-image: url('/compound-components/assets/Borrow_icon_Active.svg');
+  }
+  
 }
