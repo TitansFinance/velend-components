@@ -43,6 +43,7 @@ $device-lg: 82em;
 $column-gutter: 1.33rem;
 $gov-column-gutter: 1.75rem;
 $border_radius: 3px;
+$border_radius1: 8px;
 
 $color_kovan: #6C58F6;
 $color_rinkeby: #EEC55C;
@@ -100,7 +101,7 @@ $comment_color: #969896;
 @mixin panel(){
   background: #FFFFFF;
   border: 1px solid $color_light_2;
-  border-radius: $border_radius;
+  border-radius: $border_radius1;
   @include shadow();
 }
 
